@@ -42,8 +42,8 @@ docker compose version
 ### 1. Ստեղծել աշխատանքային directory
 
 ```bash
-mkdir -p ~/NarekIPAM
-cd ~/NarekIPAM
+mkdir -p ~/IPAM
+cd ~/IPAM
 ```
 
 ### 2. Ստեղծել docker-compose.yml
