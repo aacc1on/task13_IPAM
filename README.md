@@ -158,7 +158,7 @@ EOF
 ### Քայլ 1: Build և Start Services
 
 ```bash
-cd ~/NarekIPAM
+cd ~/IPAM
 
 # Build images և start services
 docker compose up -d --build
@@ -326,7 +326,7 @@ EOF
 ### Քայլ 1: Ստեղծել dump local directory-ում
 
 ```bash
-cd ~/NarekIPAM
+cd ~/IPAM
 
 # Ստեղծել task-13 directory
 mkdir -p task-13
@@ -346,7 +346,7 @@ head -30 task-13/mydb.sql
 sudo mkdir -p /opt/docker/dockercompose/task-13
 
 # Copy անել dump-ը
-sudo cp ~/NarekIPAM/task-13/mydb.sql /opt/docker/dockercompose/task-13/mydb.sql
+sudo cp ~/IPAM/task-13/mydb.sql /opt/docker/dockercompose/task-13/mydb.sql
 
 # Ստուգել
 ls -lh /opt/docker/dockercompose/task-13/mydb.sql
@@ -372,7 +372,7 @@ cat /opt/docker/dockercompose/task-13/mydb.sql
 ### Գործարկել checkup-compose
 
 ```bash
-cd ~/NarekIPAM
+cd ~/IPAM
 checkup-compose
 ```
 
@@ -489,8 +489,8 @@ docker compose exec mydb dpkg -l | grep mariadb-client
 
 ```bash
 # Տալ permissions
-sudo chown -R $USER:$USER ~/NarekIPAM
-chmod -R 755 ~/NarekIPAM
+sudo chown -R $USER:$USER ~/IPAM
+chmod -R 755 ~/IPAM
 
 # Volume permissions
 docker compose exec mydb ls -la /var/lib/mysql
@@ -520,7 +520,7 @@ ls -lh /opt/docker/dockercompose/task-13/mydb.sql
 ### Կանգնեցնել և հեռացնել բոլոր resources-երը
 
 ```bash
-cd ~/NarekIPAM
+cd ~/IPAM
 
 # Stop և remove containers, networks, volumes
 docker compose down -v
@@ -539,7 +539,7 @@ docker system prune -a -f
 
 ```bash
 # Հեռացնել աշխատանքային directory-ն
-rm -rf ~/NarekIPAM
+rm -rf ~/IPAM
 
 # Հեռացնել dump location-ը
 sudo rm -rf /opt/docker/dockercompose
