@@ -1,0 +1,11 @@
+# Step 2.1: Define frontend service using image phpmyadmin:5.2.0-apache
+FROM phpmyadmin:5.2.0-apache
+
+# Step 2.2: Use Dockerfile for building a custom image
+# Step 2.3: Add package iputils-ping into the image
+RUN apt-get update && \
+    apt-get install -y iputils-ping && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+# Step 2.4: Start new defined service (handled by docker-compose)

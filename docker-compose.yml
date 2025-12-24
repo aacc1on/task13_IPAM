@@ -1,0 +1,64 @@
+name: dockercompose
+
+services:
+  # ==========================================
+  # FRONTEND SERVICE (phpMyAdmin)
+  # ==========================================
+  frontend:
+    # Step 2.1: Use phpmyadmin:5.2.0-apache image
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    # Step 3: Expose port 80 to host port 8080
+    ports:
+      - "8080:80"
+    # Step 4 & 7: Attach to dockercompose-frontend network
+    networks:
+      - dockercompose-frontend
+    # Step 8: Configure phpMyAdmin environment variables
+    environment:
+      - PMA_HOST=mydb
+      - PMA_PORT=3306
+    # Step 1 (from first image): Start only if mydb service health is OK
+    depends_on:
+      mydb:
+        condition: service_healthy
+
+  # ==========================================
+  # DATABASE SERVICE (MariaDB)
+  # ==========================================
+  mydb:
+    # Step 5.1: Use current LTS mariadb version
+    build:
+      context: .
+      dockerfile: Dockerfile.mydb
+    # Step 7: Attach to dockercompose-frontend network
+    networks:
+      - dockercompose-frontend
+    # Step 9: Define mysql data volume, attach to mydb service
+    volumes:
+      - mydb_data:/var/lib/mysql
+    # Step 8: Set mysql server host and port via environment variables
+    environment:
+      - MYSQL_ROOT_PASSWORD=rootpassword
+      - MYSQL_DATABASE=mydb
+      - MYSQL_USER=admin
+      - MYSQL_PASSWORD=adminpassword
+    # Step 0 (from first image): Set healthcheck
+    healthcheck:
+      # Healthcheck based on mysqladmin ping with interval 10s, timeout 15s, retries 5
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 15s
+      retries: 5
+      start_period: 30s
+
+# Step 4: Define custom network with name dockercompose-frontend
+networks:
+  dockercompose-frontend:
+    driver: bridge
+
+# Step 9: Define mysql data volume
+volumes:
+  mydb_data:
+    driver: local

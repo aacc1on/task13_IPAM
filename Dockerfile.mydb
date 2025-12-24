@@ -1,0 +1,9 @@
+# Step 5.1: Define db service mydb. Use current LTS mariadb version image
+FROM mariadb:11.4
+
+# Step 5.2: Use Dockerfile for building a custom image
+# Step 5.3: Add package iputils-ping into the image
+RUN apt-get update && \
+    apt-get install -y iputils-ping mariadb-client && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
